@@ -5,7 +5,7 @@ export async function searchProducts(searchTerm) {
         const response = await api.get('/buscar-termo', {
             params: { query: searchTerm }
         })
-        console.log(response);
+        return response.data;
     } catch (error) {
 
     }

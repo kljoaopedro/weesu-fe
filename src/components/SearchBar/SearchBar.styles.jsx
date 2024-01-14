@@ -1,16 +1,16 @@
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
+import {TextField} from "@mui/material";
 
 
 export const SearchBarContainer = styled.div`
   display: flex;
   align-items: center;
   margin: 20px;
-  border: 1px solid #ddd;
   background-color: white;
 `;
 
-export const SearchInput = styled.input`
+export const SearchInput = styled(TextField)`
   flex-grow: 1;
   padding: 10px 30px 10px 10px;
   font-size: 16px;
@@ -23,5 +23,9 @@ export const SearchInput = styled.input`
 
 export const SearchIcon = styled(FaSearch)`
   padding: 10px;
-  color: #666;
+  color: #007bff;
+
+  &:focus {
+    outline: 1px solid #007bff;
+  }
 `;
