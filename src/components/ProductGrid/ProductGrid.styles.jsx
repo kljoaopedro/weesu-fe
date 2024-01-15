@@ -42,10 +42,8 @@ export const DiscountContainer = styled.div`
   cursor: pointer;
   background-color: #007bff;
   color: #FFFFFF;
-  padding: 10px;
-  padding-bottom: 30px;
   display: flex;
-  padding-top: 10px;
+  padding: 10px 10px 30px;
   border-radius: 0% 0% 50% 50% / 58% 61% 39% 42%;
 `;
 
