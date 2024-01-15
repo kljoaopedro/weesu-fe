@@ -24,8 +24,8 @@ export const SearchInput = styled(TextField)`
 export const SearchIcon = styled(FaSearch)`
   padding: 10px;
   color: #007bff;
-
-  &:focus {
-    outline: 1px solid #007bff;
+  
+  &:hover {
+    cursor: pointer;
   }
 `;
