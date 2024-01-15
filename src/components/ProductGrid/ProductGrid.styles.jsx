@@ -44,7 +44,7 @@ export const DiscountContainer = styled.div`
   color: #FFFFFF;
   display: flex;
   padding: 10px 10px 30px;
-  border-radius: 0% 0% 50% 50% / 58% 61% 39% 42%;
+  border-radius: 0 0 50% 50% / 58% 61% 39% 42%;
 `;
 
 export const Discount = styled.div`
