@@ -57,6 +57,7 @@ export const ProductItem = styled.div`
   position: relative;
   background-color: #FFFFFF;
   display: flex;
+  border: 1px solid black;
 `;
 
 export const ProductImage = styled.img`
