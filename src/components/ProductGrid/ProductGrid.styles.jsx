@@ -21,6 +21,8 @@ export const ProductItem = styled(Paper)`
   text-align: center;
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* Empurra o conteúdo para cima e o botão para baixo */
+  height: 100%; /* Altura 100% para ocupar todo o espaço do grid item */
 `;
 
 export const ProductImage = styled.img`
@@ -61,6 +63,8 @@ export const MoreInfoContainer = styled.div`
 
 export const PriceContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   justify-content: center;
   
   > div {
@@ -86,20 +90,21 @@ export const BuyNowButton = styled.button`
   border: none;
   cursor: pointer;
   font-size: 16px;
-  background-color: inherit;
+  background-color: #007bff; /* Cor de fundo azul */
   font-weight: bold;
-  font-family: math;
-
+  font-family: 'Arial', sans-serif;
+  width: 100%; /* Ocupa a largura total */
+  outline: none;
 
   @media (max-width: 768px) {
-    padding: 8px 12px;
+    padding: 10px 0;
     font-size: 14px;
   }
 `;
 
 export const BottomWrapper = styled.div`
+  margin-top: auto; /* Empurra para baixo se houver espaço */
   width: 100%;
-  cursor: pointer;
-  background: linear-gradient(to right, #33bfff, #007bff, #0056b3);
+  background: linear-gradient(to right, #33bfff, #007bff, #0056b3); /* Gradiente */
 `;
 
