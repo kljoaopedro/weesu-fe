@@ -50,7 +50,7 @@ export const DiscountContainer = styled.div`
 `;
 
 export const Discount = styled.div`
-
+  
 `;
 
 export const ProductItem = styled.div`

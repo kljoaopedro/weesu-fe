@@ -1,17 +1,19 @@
+import InfoIcon from '@mui/icons-material/Info';
+import {useCallback} from "react";
+import {calculateDiscountAndFormatCurrency, formatCurrency} from "../../helper/currency.helper";
 import {
-    BottomWrapper,
     BuyNowButton,
+    Container,
+    ContentContainer, DiscountContainer,
     Grid,
     MoreInfoContainer,
     PriceContainer,
     ProductImage,
+    ProductImageBackground,
     ProductItem,
     ProductName,
     SkeletonProductItem
 } from "./ProductGrid.styles";
-import InfoIcon from '@mui/icons-material/Info';
-import {useCallback} from "react";
-import {calculateDiscountAndFormatCurrency, formatCurrency} from "../../helper/currency.helper";
 
 const buildProductPriceWithDiscount = (originalPriceFormatted, priceFormatted, discount) => {
     return (
@@ -36,6 +38,48 @@ const buildProductPriceWithDiscount = (originalPriceFormatted, priceFormatted, d
         </div>
     )
 }
+const buildProductPriceWithoutDiscount = (priceFormatted) => {
+    return (
+        <div>
+            <h2>
+                APENAS <span>{priceFormatted}</span>
+            </h2>
+        </div>
+    )
+}
+
+const buildProductItem2 = (product, onClickComprar) => {
+    const {
+        originalPriceFormatted,
+        priceFormatted,
+        discount
+    } = calculateDiscountAndFormatCurrency(product.originalPrice, product.price);
+
+    const onlyPriceFormatted = formatCurrency(product.price);
+    return (
+        <Container>
+            <ContentContainer>
+                <DiscountContainer>{discount} OFF</DiscountContainer>
+                <MoreInfoContainer>
+                    <InfoIcon/>
+                </MoreInfoContainer>
+                <ProductImageBackground>
+                    <ProductImage src={product.thumbnail} alt=""/>
+                </ProductImageBackground>
+                <ProductName>{product.name}</ProductName>
+                <PriceContainer>
+                    {product.originalPrice ?
+                        (
+                            buildProductPriceWithDiscount(originalPriceFormatted, priceFormatted, discount)) :
+                        buildProductPriceWithoutDiscount(onlyPriceFormatted)
+                    }
+                </PriceContainer>
+            </ContentContainer>
+            <BuyNowButton onClick={onClickComprar}>COMPRAR</BuyNowButton>
+        </Container>
+    )
+}
+
 const buildProductItem = (product, onClickComprar) => {
     const {
         originalPriceFormatted,
@@ -45,29 +89,23 @@ const buildProductItem = (product, onClickComprar) => {
 
     const onlyPriceFormatted = formatCurrency(product.price);
     return (
-        <div>
+        <>
             <MoreInfoContainer>
                 <InfoIcon/>
             </MoreInfoContainer>
-            <div>
+            <ProductImageBackground>
                 <ProductImage src={product.thumbnail} alt=""/>
-            </div>
+            </ProductImageBackground>
             <ProductName>{product.name}</ProductName>
             <PriceContainer>
-                {product.originalPrice ? (buildProductPriceWithDiscount(originalPriceFormatted, priceFormatted, discount)) :
+                {product.originalPrice ?
                     (
-                        <div>
-                            <h2>
-                                APENAS <span>{onlyPriceFormatted}</span>
-                            </h2>
-                        </div>
-                    )
+                        buildProductPriceWithDiscount(originalPriceFormatted, priceFormatted, discount)) :
+                    buildProductPriceWithoutDiscount(onlyPriceFormatted)
                 }
             </PriceContainer>
-            <BottomWrapper onClick={onClickComprar}>
-                <BuyNowButton>Comprar Agora</BuyNowButton>
-            </BottomWrapper>
-        </div>
+            <BuyNowButton onClick={onClickComprar}>COMPRAR</BuyNowButton>
+        </>
     )
 }
 
@@ -80,8 +118,8 @@ function ProductGrid({isLoadingProducts, products}) {
     return (
         <Grid>
             {!isLoadingProducts ? products.map(product => (
-                <ProductItem key={product.id} elevation={12}>
-                    {buildProductItem(product, () => comprarHandle(product.linkML))}
+                <ProductItem elevation={8} key={product.id}>
+                    {buildProductItem2(product, () => comprarHandle(product.linkML))}
                 </ProductItem>
             )) : Array(10).fill().map((_, index) => (
                 <SkeletonProductItem key={index}/>
