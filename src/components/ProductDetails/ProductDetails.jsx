@@ -33,7 +33,6 @@ const ProductDetails = () => {
         fetchProductDetails(itemId);
     }, [fetchProductDetails, itemId]);
 
-    console.log(linkML);
     return (
         <div>
             <Nav />
