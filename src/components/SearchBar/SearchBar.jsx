@@ -40,7 +40,7 @@ function SearchBar({onPressEnter}) {
                          onFocus={onFocusHandler}
                          onBlur={onBlurHandler}
             />
-            <div>
+            <div id="search-bar">
                 <SearchIcon
                     id="search-icon-bar"
                     onClick={() => onPressEnter(searchTerm, 1)}

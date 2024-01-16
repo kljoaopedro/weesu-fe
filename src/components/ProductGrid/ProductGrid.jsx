@@ -1,89 +1,100 @@
-import {
-    BottomWrapper,
-    BuyNowButton,
-    Grid,
-    MoreInfoContainer,
-    PriceContainer,
-    ProductImage,
-    ProductItem,
-    ProductName,
-    SkeletonProductItem
-} from "./ProductGrid.styles";
 import InfoIcon from '@mui/icons-material/Info';
 import {useCallback} from "react";
 import {calculateDiscountAndFormatCurrency, formatCurrency} from "../../helper/currency.helper";
+import {
+    BuyNowButton,
+    ContentWrapper,
+    DiscountBadge,
+    Grid,
+    MoreInfoWrapper,
+    PriceWrapper,
+    ProductImage,
+    ProductImageBackground,
+    ProductItemContainer,
+    ProductItemWrapper,
+    ProductName,
+    SkeletonProductItem
+} from "./ProductGrid.styles";
+import {openInAnotherTab} from "../../helper/redirect.helper";
+import {useNavigate} from "react-router-dom";
 
-const buildProductPriceWithDiscount = (originalPriceFormatted, priceFormatted, discount) => {
+const buildProductPrice = (price, originalPrice) => {
+    const priceFormatted = formatCurrency(price);
+    if (originalPrice > 0) {
+        const originalPriceFormatted = formatCurrency(originalPrice);
+        return (
+            <>
+                <div>
+                    <h3>
+                        DE <span>{originalPriceFormatted}</span>
+                    </h3>
+                </div>
+
+                <div>
+                    <h2>
+                        POR <span>{priceFormatted}</span>
+                    </h2>
+                </div>
+            </>
+        )
+    }
     return (
         <div>
-            <div>
-                <h3>
-                    DE <span>{originalPriceFormatted}</span>
-                </h3>
-            </div>
-
-            <div>
-                <h2>
-                    POR <span>{priceFormatted}</span>
-                </h2>
-            </div>
-
-            <div>
-                <h4>
-                    <span>{discount} DE DESCONTO</span>
-                </h4>
-            </div>
+            <h2>
+                APENAS <span>{priceFormatted}</span>
+            </h2>
         </div>
     )
 }
-const buildProductItem = (product, onClickComprar) => {
-    const {
-        originalPriceFormatted,
-        priceFormatted,
-        discount
-    } = calculateDiscountAndFormatCurrency(product.originalPrice, product.price);
 
-    const onlyPriceFormatted = formatCurrency(product.price);
+const buildProductItem = ({
+                              productId,
+                              originalPrice,
+                              name,
+                              price,
+                              thumbnail,
+                              linkML
+                          }, onClickComprar, onClickInfoHandler) => {
+    const {discount} = calculateDiscountAndFormatCurrency(originalPrice, price);
     return (
-        <div>
-            <MoreInfoContainer>
-                <InfoIcon/>
-            </MoreInfoContainer>
-            <div>
-                <ProductImage src={product.thumbnail} alt=""/>
-            </div>
-            <ProductName>{product.name}</ProductName>
-            <PriceContainer>
-                {product.originalPrice ? (buildProductPriceWithDiscount(originalPriceFormatted, priceFormatted, discount)) :
-                    (
-                        <div>
-                            <h2>
-                                APENAS <span>{onlyPriceFormatted}</span>
-                            </h2>
-                        </div>
-                    )
-                }
-            </PriceContainer>
-            <BottomWrapper onClick={onClickComprar}>
-                <BuyNowButton>Comprar Agora</BuyNowButton>
-            </BottomWrapper>
-        </div>
+        <ProductItemWrapper>
+            <ContentWrapper>
+                {originalPrice && (<DiscountBadge>{discount} OFF</DiscountBadge>)}
+                <MoreInfoWrapper onClick={() => onClickInfoHandler(productId, name, linkML)}>
+                    <InfoIcon/>
+                </MoreInfoWrapper>
+                <ProductImageBackground>
+                    <ProductImage src={thumbnail} alt=""/>
+                </ProductImageBackground>
+                <ProductName>{name}</ProductName>
+                <PriceWrapper>
+                    {buildProductPrice(price, originalPrice)}
+                </PriceWrapper>
+            </ContentWrapper>
+            <BuyNowButton onClick={() => onClickComprar(linkML)}>COMPRAR</BuyNowButton>
+        </ProductItemWrapper>
     )
 }
 
 function ProductGrid({isLoadingProducts, products}) {
 
-    const comprarHandle = useCallback((linkML) => {
-        window.open(linkML, "_blank");
+    const navigate = useNavigate();
+
+    const onClickInfoHandler = useCallback((itemId, productName, linkML) => {
+        navigate(`/${itemId}/details`, { state: { productName, linkML } });
+    }, [navigate]);
+
+    const comprarHandler = useCallback((link) => {
+        openInAnotherTab(link);
     }, []);
 
     return (
         <Grid>
             {!isLoadingProducts ? products.map(product => (
-                <ProductItem key={product.id} elevation={12}>
-                    {buildProductItem(product, () => comprarHandle(product.linkML))}
-                </ProductItem>
-            )) : Array(10).fill().map((_, index) => (
+                <ProductItemContainer elevation={8} key={product.id}>
+                    {buildProductItem(product, comprarHandler, onClickInfoHandler)}
+                </ProductItemContainer>
+            )) : Array(3).fill().map((_, index) => (
                 <SkeletonProductItem key={index}/>
             ))}
         </Grid>

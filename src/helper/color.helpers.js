@@ -1,0 +1,1 @@
+export const WEESU_BLUE = '#23b6bb';

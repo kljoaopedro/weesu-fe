@@ -24,7 +24,7 @@ const ArrowButton = styled.button`
 
   &:before {
     content: '';
-    border: solid #007bff;
+    border: solid #23b6bb;
     border-width: 0 4px 4px 0;
     display: inline-block;
     padding: 6px;
@@ -46,32 +46,5 @@ export const NextButton = styled(ArrowButton)`
   &:before {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
-  }
-`;
-
-export const Tooltip = styled.span`
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: white;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 100%;
-  left: 50%;
-  margin-left: -60px;
-  transition: visibility 0.3s;
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: black transparent transparent transparent;
   }
 `;

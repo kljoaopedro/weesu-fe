@@ -1,5 +1,6 @@
 import React from "react";
-import {Container, NextButton, PreviousButton, Tooltip} from "./PreviousNextPage.styles";
+import {Container, NextButton, PreviousButton} from "./PreviousNextPage.styles";
+import {Tooltip} from "../UI/Tooltip/Tooltip.styles";
 
 function PreviousNextPage({render, onClickPrevious, onClickNext, page, isEmptyProducts}) {
 
