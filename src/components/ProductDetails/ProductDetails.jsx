@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useLocation, useParams} from 'react-router-dom';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import Nav from "../Nav/Nav";
 import {getDetailsService} from "../../services/products.services";
 import {BuyNowWrapper, DetailsContainer, DetailsContentWrapper, DetailsWrapper} from "./ProductDetails.styles";
@@ -8,12 +8,21 @@ import {BuyNowButton} from "../ProductGrid/ProductGrid.styles";
 import {openInAnotherTab} from "../../helper/redirect.helper";
 
 const ProductDetails = () => {
+    const navigate = useNavigate();
     const {itemId} = useParams(); // Obtém o itemId da URL
     const location = useLocation(); // Obtém o itemId da URL
     const [productDetails, setProductDetails] = useState(null);
-    const { productName, linkML } = location.state;
+    const productName  = location?.state?.productName;
+    const linkML  = location?.state?.linkML;
 
     const [showEmptyComponent, setShowEmptyComponent] = useState(false);
+
+    // Volta pra home caso o usuário tente burlar algo...
+    useEffect(() =>{
+        if (!productName || !linkML) {
+            navigate('/');
+        }
+    },[navigate, productName, linkML])
 
     const fetchProductDetails = useCallback(async (id) => {
         try {
