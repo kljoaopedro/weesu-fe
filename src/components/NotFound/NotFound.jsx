@@ -8,6 +8,7 @@ function NotFound({children}) {
     return (
         <NotFoundContainer>
             <div>
+                <span>Parece que algo deu errado :(</span>
                 <NotFoundSVG/>
                 {children}
             </div>

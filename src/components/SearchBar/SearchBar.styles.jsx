@@ -15,7 +15,6 @@ export const SearchInput = styled(TextField)`
   flex-grow: 1;
   padding: 10px 30px 10px 10px;
   font-size: 16px;
-  border: 1px solid red;
   font-weight: 100;
   font-family: monospace !important;
   
@@ -24,10 +23,6 @@ export const SearchInput = styled(TextField)`
   }
   
   & .MuiFormLabel-root-MuiInputLabel-root {
-    
-    &:active {
-      color: #23b6bb !important;  
-    }
     
   }
 

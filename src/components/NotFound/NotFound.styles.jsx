@@ -9,9 +9,10 @@ export const NotFoundContainer = styled.div`
   }
 
   & > div {
-    width: 400px;
-    & svg {
-
-    }
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 100;
+    font-family: "Roboto Light", monospace;
   }
 `;

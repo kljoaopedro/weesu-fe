@@ -16,7 +16,7 @@ import {
     SkeletonProductItem
 } from "./ProductGrid.styles";
 import {openInAnotherTab} from "../../helper/redirect.helper";
-import {getDetailsService} from "../../services/products.services";
+import {useNavigate} from "react-router-dom";
 
 const buildProductPrice = (price, originalPrice) => {
     const priceFormatted = formatCurrency(price);
@@ -47,30 +47,42 @@ const buildProductPrice = (price, originalPrice) => {
     )
 }
 
-const buildProductItem = (product, onClickComprar) => {
-    const {discount} = calculateDiscountAndFormatCurrency(product.originalPrice, product.price);
+const buildProductItem = ({
+                              productId,
+                              originalPrice,
+                              name,
+                              price,
+                              thumbnail,
+                              linkML
+                          }, onClickComprar, onClickInfoHandler) => {
+    const {discount} = calculateDiscountAndFormatCurrency(originalPrice, price);
     return (
         <ProductItemWrapper>
             <ContentWrapper>
-                {product.originalPrice && (<DiscountBadge>{discount} OFF</DiscountBadge>)}
-                <MoreInfoWrapper onClick={() => {
-                    getDetailsService(product.productId)}}>
+                {originalPrice && (<DiscountBadge>{discount} OFF</DiscountBadge>)}
+                <MoreInfoWrapper onClick={() => onClickInfoHandler(productId, name, linkML)}>
                     <InfoIcon/>
                 </MoreInfoWrapper>
                 <ProductImageBackground>
-                    <ProductImage src={product.thumbnail} alt=""/>
+                    <ProductImage src={thumbnail} alt=""/>
                 </ProductImageBackground>
-                <ProductName>{product.name}</ProductName>
+                <ProductName>{name}</ProductName>
                 <PriceWrapper>
-                    {buildProductPrice(product.price, product.originalPrice)}
+                    {buildProductPrice(price, originalPrice)}
                 </PriceWrapper>
             </ContentWrapper>
-            <BuyNowButton onClick={onClickComprar}>COMPRAR</BuyNowButton>
+            <BuyNowButton onClick={() => onClickComprar(linkML)}>COMPRAR</BuyNowButton>
         </ProductItemWrapper>
     )
 }
 
 function ProductGrid({isLoadingProducts, products}) {
+
+    const navigate = useNavigate();
+
+    const onClickInfoHandler = useCallback((itemId, productName, linkML) => {
+        navigate(`/${itemId}/details`, { state: { productName, linkML } });
+    }, [navigate]);
 
     const comprarHandler = useCallback((link) => {
         openInAnotherTab(link);
@@ -80,9 +92,9 @@ function ProductGrid({isLoadingProducts, products}) {
         <Grid>
             {!isLoadingProducts ? products.map(product => (
                 <ProductItemContainer elevation={8} key={product.id}>
-                    {buildProductItem(product, () => comprarHandler(product.linkML))}
+                    {buildProductItem(product, comprarHandler, onClickInfoHandler)}
                 </ProductItemContainer>
-            )) : Array(6).fill().map((_, index) => (
+            )) : Array(3).fill().map((_, index) => (
                 <SkeletonProductItem key={index}/>
             ))}
         </Grid>

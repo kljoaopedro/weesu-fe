@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import {HamburgerLines, HamburgerMenu, LogoWrapper, Menu, MenuWrapper, Navbar, NavItem} from "./Nav.styles";
 import logoweesu from '../../assets/logoweesu.png';
 import {openInAnotherTab} from "../../helper/redirect.helper";
+import {useNavigate} from "react-router-dom";
 
 function getMenuItens() {
     return [
@@ -12,17 +13,22 @@ function getMenuItens() {
 
 const Nav = () => {
     const [isMenuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate();
+
+    const onClickLogoHandler = useCallback(() => {
+            navigate('/');
+    }, [navigate]);
 
     return (
         <Navbar>
-            <LogoWrapper>
+            <LogoWrapper onClick={onClickLogoHandler}>
                 <img src={logoweesu} alt="Logotipo"/>
             </LogoWrapper>
             <MenuWrapper>
                 <Menu>
                     {getMenuItens().map(menuOption => (
                         <NavItem
-                            id={menuOption.id}
+                            key={menuOption.id}
                             onClick={() => openInAnotherTab(menuOption.redirectTo)}
                         >
                             {menuOption.label}
@@ -31,9 +37,9 @@ const Nav = () => {
                 </Menu>
             </MenuWrapper>
             <HamburgerMenu onClick={() => setMenuOpen(!isMenuOpen)}>
-                <HamburgerLines />
-                <HamburgerLines />
-                <HamburgerLines />
+                <HamburgerLines/>
+                <HamburgerLines/>
+                <HamburgerLines/>
             </HamburgerMenu>
         </Navbar>
     );

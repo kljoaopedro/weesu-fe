@@ -15,13 +15,8 @@ export function calculateDiscountAndFormatCurrency(valueA = 0, valueB) {
     // Calcular a diferença percentual
     const discountPercentage = ((maxValue - minValue) / maxValue) * 100;
 
-    // Formatar ambos os valores como moeda
-    const originalPriceFormatted = formatCurrency(maxValue);
-    const priceFormatted = formatCurrency(minValue);
 
     return {
-        originalPriceFormatted: originalPriceFormatted,
-        priceFormatted: priceFormatted,
         discount: discountPercentage.toFixed(2) + '%'
     };
 }

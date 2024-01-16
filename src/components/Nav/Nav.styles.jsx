@@ -17,6 +17,7 @@ export const Navbar = styled.nav`
 `;
 
 export const LogoWrapper = styled.div`
+  cursor: pointer;
   & img {
     height: auto;
     @media (max-width: 400px) {

@@ -1,10 +1,10 @@
 import api from "./api";
 
 export async function searchProductsService(searchTerm, page = 1) {
-    const limit = 6;
+    const limit = 3;
     const offset = (page - 1) * limit; // Calculando o offset com base na página atual
     try {
-        const response = await api.get('/buscar-termo', {
+        const response = await api.get('/search-product', {
             params: {query: searchTerm, offset, limit}
         })
         return response.data;
