@@ -91,7 +91,7 @@ function ProductGrid({isLoadingProducts, products}) {
     return (
         <Grid>
             {!isLoadingProducts ? products.map(product => (
-                <ProductItemContainer elevation={8} key={product.id}>
+                <ProductItemContainer data-testid="product-grid" elevation={8} key={product.id}>
                     {buildProductItem(product, comprarHandler, onClickInfoHandler)}
                 </ProductItemContainer>
             )) : Array(3).fill().map((_, index) => (
